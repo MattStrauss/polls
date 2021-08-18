@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %} {{ question.question_text }} {% endblock %}
+{% block title %} {{ question.question_text }} {% endblock title %}
+
+{% block pagetitle %} Latest Polls {% endblock pagetitle %}
 
 {% block content %}
         {% if latest_question_list %}
@@ -13,5 +15,5 @@
             <p>No polls are available.</p>
         {% endif %}
 
-{% endblock %}
+{% endblock content %}
 

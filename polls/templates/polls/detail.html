@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{ question }}{% endblock %}
+{% block title %}{{ question }}{% endblock title %}
+
+{% block pagetitle %} {{ question.question_text }} {% endblock pagetitle %}
+
+
 
 {% block content %}
 
@@ -17,4 +21,4 @@
         <input type="submit" value="Vote">
     </form>
 
-{% endblock %}
+{% endblock content %}

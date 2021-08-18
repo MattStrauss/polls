@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %} Results for {{ question.question_text }} {% endblock %}
+{% block title %} Results | {{ question.question_text }} {% endblock title %}
+
+{% block pagetitle %} Results | {{ question.question_text }} {% endblock pagetitle %}
+
 
 {% block content %}
 
@@ -12,4 +15,4 @@
 
     <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
 
-{% endblock %}
+{% endblock content %}
