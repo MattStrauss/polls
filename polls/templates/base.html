@@ -18,8 +18,13 @@
                         </a>
                     </div>
                     <nav class="space-x-4 text-gray-200 text-sm sm:text-base">
-                        <a class="no-underline hover:underline" href="#">Login</a>
-                        <a class="no-underline hover:underline" href="#">Register</a>
+                        {% if user.is_authenticated  %}
+                            <span class="no-underline hover:underline"> Welcome, {{ user.username }}</span>
+                            <a class="no-underline hover:underline" href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                            <a class="no-underline hover:underline" href="{% url 'login'  %}">Login</a>
+                            <a class="no-underline hover:underline" href="{% url 'register' %}">Register</a>
+                        {% endif %}
                     </nav>
                 </div>
             </header>
