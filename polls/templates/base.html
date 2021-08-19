@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+             <title>{% block title %} Poll App {% endblock title %}</title>
+    </head>
+
+    <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
+        <div id="app">
+            <header class="bg-green-700 py-6">
+                <div class="container mx-auto flex justify-between items-center px-6">
+                    <div>
+                        <a href="{% url 'polls:index' %}" class="text-lg font-semibold text-gray-100 no-underline">
+                            Poll App
+                        </a>
+                    </div>
+                    <nav class="space-x-4 text-gray-200 text-sm sm:text-base">
+                        <a class="no-underline hover:underline" href="#">Login</a>
+                        <a class="no-underline hover:underline" href="#">Register</a>
+                    </nav>
+                </div>
+            </header>
+
+        <main class="sm:container sm:mx-auto sm:mt-10">
+            <div class="w-full sm:px-6">
+                <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg">
+                    <header class="font-semibold bg-gray-200 text-green-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
+                        {% block pagetitle %} Poll App {% endblock pagetitle %}
+                    </header>
+                    <div class="w-full p-6">
+                        <div class="text-gray-700">
+                            {% block content %}
+
+                            {% endblock content %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        </div>
+    </body>
+</html>
