@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth import login
 from .forms import RegisterForm
 
 from .models import Choice, Question
@@ -65,7 +66,8 @@ def register(response):
         form = RegisterForm(response.POST)
 
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(response, user)
 
             return redirect("/polls")
 
