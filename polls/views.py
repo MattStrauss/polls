@@ -4,18 +4,40 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import login
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
-
 from .models import Choice, Question
 
 
+def welcome(request):
+    return render(request, 'welcome.html')
+
+
+def register(response):
+    if response.method == "POST":
+        form = RegisterForm(response.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(response, user)
+
+            return redirect("/polls")
+
+    else:
+        form = RegisterForm()
+
+    return render(response, "registration/register.html", {"form": form})
+
+
+@method_decorator(login_required, name='dispatch')
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
         """
-        Return the last five published questions (not including those set to be
+        Return the last five published polls (not including those set to be
         published in the future).
         """
         from django.db.models import Sum
@@ -26,6 +48,7 @@ class IndexView(generic.ListView):
         ).annotate(total_votes=Sum('choice__votes')).order_by('total_votes')[:5]
 
 
+@method_decorator(login_required, name='dispatch')
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
@@ -37,11 +60,13 @@ class DetailView(generic.DetailView):
         return Question.objects.filter(pub_date__lte=timezone.now())
 
 
+@method_decorator(login_required, name='dispatch')
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
 
+@login_required()
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -59,19 +84,3 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
-
-def register(response):
-    if response.method == "POST":
-        form = RegisterForm(response.POST)
-
-        if form.is_valid():
-            user = form.save()
-            login(response, user)
-
-            return redirect("/polls")
-
-    else:
-        form = RegisterForm()
-
-    return render(response, "registration/register.html", {"form": form})
