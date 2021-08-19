@@ -4,15 +4,16 @@
 
 {% block pagetitle %} Results | {{ question.question_text }} {% endblock pagetitle %}
 
-
 {% block content %}
 
     <ul>
-        {% for choice in question.choice_set.all %}
-            <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+        {% for choice in question.choice_set.all|dictsortreversed:"votes" %}
+            <li class="my-3">{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
         {% endfor %}
     </ul>
 
-    <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+    <div class="mt-8">
+        <a class="semibold hover:underline hover:text-green-700" href="{% url 'polls:detail' question.id %}">Vote again?</a>
+    </div>
 
 {% endblock content %}

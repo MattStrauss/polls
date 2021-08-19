@@ -4,21 +4,19 @@
 
 {% block pagetitle %} {{ question.question_text }} {% endblock pagetitle %}
 
-
-
 {% block content %}
 
     <form action="{% url 'polls:vote' question.id %}" method="post">
         {% csrf_token %}
         <fieldset>
-                <legend><h1>{{ question.question_text }}</h1></legend>
+                <legend><h1 class="text-xl">{{ question.question_text }}</h1></legend>
                 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
                 {% for choice in question.choice_set.all %}
-                    <input type="radio" class="py-2" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                    <input class="my-3" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
                     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
                 {% endfor %}
         </fieldset>
-        <input type="submit" value="Vote">
+        <input class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit" value="Vote">
     </form>
 
 {% endblock content %}

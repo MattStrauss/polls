@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib import admin
+from django.db.models import F, Sum
 
 
 class Question(models.Model):

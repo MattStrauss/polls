@@ -16,9 +16,14 @@ class IndexView(generic.ListView):
         Return the last five published questions (not including those set to be
         published in the future).
         """
+        from django.db.models import Sum
+        Question.objects.annotate(total_votes=Sum('choice__votes'))
+
         return Question.objects.filter(
             pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5]
+        ).annotate(total_votes=Sum('choice__votes')).order_by('total_votes')[:5]
+
+
 
 
 class DetailView(generic.DetailView):
